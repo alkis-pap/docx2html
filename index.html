@@ -1,7 +1,40 @@
 <html>
 <head>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.7/mammoth.browser.min.js"></script>
+
+<script>
+
+function convert() {
+    var file = document.getElementById('input-file').files[0];
+    var reader = new FileReader();
+    reader.onload = function() {
+        var data = this.result;
+        mammoth.convertToHtml({arrayBuffer: data})
+            .then(function(result){
+                var html = result.value; // The generated HTML
+                var messages = result.messages; // Any messages, such as warnings during conversion
+                console.log(messages)
+                document.getElementById('output').textContent = html;
+            })
+            .done();
+    }
+    reader.readAsArrayBuffer(file);
+}
+
+function copy() {
+    document.getElementById('output').select();
+    document.execCommand('copy');
+}
+
+</script>
+
 </head>
 <body>
-<h1>Test</h1>
+    <input type="file" id="input-file" name="document" accept=".doc, .docx">
+    <button onclick="convert()">Convert</button>
+    <button onclick="copy()">Copy</button>
+    <textarea readonly type="text" style="width:100%; height:90%; resize:none" id="output" style="border:1px solid black; padding:10px"></textarea>
+
 </body>
 </html>
