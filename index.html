@@ -20,9 +20,9 @@ function convert() {
                 console.log(image.contentType);
                 if (image.contentType == "image/x-emf") {
                     console.log("Converting wmf.");
-                    return image.read().then(function(buffer) {
+                    return image.read().then(function(array) {
                         var wrt = new ToContext2D(0, 1.0);
-                        FromEMF.Parse(buffer, wrt);
+                        FromEMF.Parse(array.buffer, wrt);
                         
                         let result = wrt.canvas.toDataURL();
                         console.log(result);
