@@ -15,6 +15,9 @@ function convert() {
         var data = this.result;
         var options = {
             convertImage: mammoth.images.imgElement(function(image) {
+                console.log("Converting");
+                console.log(image);
+                console.log(image.contentType);
                 if (image.contentType == "image/x-emf") {
                     let wmf = new WMFConverter();
                     let canvas = document.getElementById("canvas");
