@@ -2,9 +2,9 @@
 <head>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.7/mammoth.browser.min.js"></script>
-<script src="js/sprintf.min.js"></script>
-<script src="js/bundle.js"></script>
-<script src="js/wmf.js"></script>
+<script src="js/UDOC.js"></script>
+<script src="js/FromEMF.js"></script>
+<script src="js/ToContext2D.js"></script>
     
 <script>
 
@@ -20,13 +20,11 @@ function convert() {
                 console.log(image.contentType);
                 if (image.contentType == "image/x-emf") {
                     console.log("Converting wmf.");
-                    let wmf = new WMFConverter();
-                    let canvas = document.getElementById("canvas");
                     return image.read().then(function(buffer) {
-                        console.log(buffer)
-                        let image_file = new Blob([buffer], {type: image.contentType});    
-                        wmf.toCanvas(image_file, canvas);
-                        let result = canvas.toDataURL();
+                        var wrt = new ToContext2D(0, 1.0);
+                        FromPDF.Parse(buffer, wrt);
+                        
+                        let result = wrt.canvas.toDataURL();
                         console.log(result);
                         return result;
                     });
