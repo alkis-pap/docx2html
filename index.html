@@ -21,7 +21,7 @@ function convert() {
                 if (image.contentType == "image/x-emf") {
                     let wmf = new WMFConverter();
                     let canvas = document.getElementById("canvas");
-                    let image_data = image.data();
+                    let image_data = image.read();
                     console.log(image_data);
                     let image_file = new Blob([image_data], {type: image.contentType});
 
