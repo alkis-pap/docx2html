@@ -24,6 +24,7 @@ function convert() {
                         var wrt = new ToContext2D(0, 1.0);
                         FromEMF.Parse(array.buffer, wrt);
                         
+                        document.body.appendChild(wrt.canvas);
                         let result = wrt.canvas.toDataURL();
                         console.log(result);
                         return result;
