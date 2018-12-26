@@ -2,7 +2,10 @@
 <head>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.7/mammoth.browser.min.js"></script>
-
+<script src="js/sprintf.min.js"></script>
+<script src="js/bundle.js"></script>
+<script src="js/wmf.js"></script>
+    
 <script>
 
 function convert() {
@@ -10,7 +13,19 @@ function convert() {
     var reader = new FileReader();
     reader.onload = function() {
         var data = this.result;
-        mammoth.convertToHtml({arrayBuffer: data})
+        var options = {
+            convertImage: mammoth.images.imgElement(function(image) {
+                let wmf = new WMFConverter();
+                let canvas = document.getElementById("canvas");
+                
+                var image_file = new Blob([image.read()], {type: image.contentType});
+                
+                wmf.toCanvas(image_file, canvas);
+                
+                return canvas.toDataURL();
+            })
+        };
+        mammoth.convertToHtml({arrayBuffer: data}, options)
             .then(function(result){
                 var html = result.value; // The generated HTML
                 var messages = result.messages; // Any messages, such as warnings during conversion
@@ -35,6 +50,6 @@ function copy() {
     <button onclick="convert()">Convert</button>
     <button onclick="copy()">Copy</button>
     <textarea readonly type="text" style="width:100%; height:90%; resize:none" id="output" style="border:1px solid black; padding:10px"></textarea>
-
+    <canvas id="canvas" style="display:none"></canvas>
 </body>
 </html>
