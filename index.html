@@ -26,16 +26,18 @@ function convert() {
                     let image_file = new Blob([image_data], {type: image.contentType});
 
                     wmf.toCanvas(image_file, canvas);
-
-                    return canvas.toDataURL();
+                    var result = canvas.toDataURL();
+                    //return canvas.toDataURL();
                 }
                 else {
-                    return image.read("base64").then(function(imageBuffer) {
+                    var result = image.read("base64").then(function(imageBuffer) {
                         return {
                             src: "data:" + image.contentType + ";base64," + imageBuffer
                         };
                     });
                 }
+                console.log(result);
+                return result;
             })
         };
         mammoth.convertToHtml({arrayBuffer: data}, options)
