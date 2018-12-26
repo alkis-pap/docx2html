@@ -15,14 +15,23 @@ function convert() {
         var data = this.result;
         var options = {
             convertImage: mammoth.images.imgElement(function(image) {
-                let wmf = new WMFConverter();
-                let canvas = document.getElementById("canvas");
-                
-                var image_file = new Blob([image.read()], {type: image.contentType});
-                
-                wmf.toCanvas(image_file, canvas);
-                
-                return canvas.toDataURL();
+                if (image.contentType == "image/x-emf") {
+                    let wmf = new WMFConverter();
+                    let canvas = document.getElementById("canvas");
+
+                    var image_file = new Blob([image.read()], {type: image.contentType});
+
+                    wmf.toCanvas(image_file, canvas);
+
+                    return canvas.toDataURL();
+                }
+                else {
+                    return image.read("base64").then(function(imageBuffer) {
+                        return {
+                            src: "data:" + image.contentType + ";base64," + imageBuffer
+                        };
+                    });
+                }
             })
         };
         mammoth.convertToHtml({arrayBuffer: data}, options)
