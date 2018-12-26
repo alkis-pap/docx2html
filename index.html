@@ -22,7 +22,7 @@ function convert() {
                     console.log("Converting wmf.");
                     return image.read().then(function(buffer) {
                         var wrt = new ToContext2D(0, 1.0);
-                        FromPDF.Parse(buffer, wrt);
+                        FromEMF.Parse(buffer, wrt);
                         
                         let result = wrt.canvas.toDataURL();
                         console.log(result);
