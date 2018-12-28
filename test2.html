@@ -20,7 +20,7 @@ var createCORSRequest = function(method, url) {
 
 var iframes = document.getElementsByTagName("iframe");
 
-for (let i = 0; i < iframse.length; i++) {
+for (let i = 0; i < iframes.length; i++) {
     var url = iframes[i].getAttribute("src");
     if (url.startsWith("https://docs.google.com/document/d/")) {
         var xhr = new createCORSRequest('GET', url);
