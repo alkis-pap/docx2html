@@ -1,0 +1,39 @@
+<html>
+<head>
+<script>
+var createCORSRequest = function(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // Most browsers.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // IE8 & IE9
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+};
+
+var url = 'https://docs.google.com/document/d/e/2PACX-1vTeppVk1yK7c3lnkD7QtmA1R3D-P6DUfnytZOHrftvx_ijVg1LbB9vRWnswKLz-YBRp1wiravaZd2yH/pub?embedded=true';
+var method = 'GET';
+var xhr = createCORSRequest(method, url);
+
+xhr.onload = function() {
+    document.getElementById("content").innerHTML = xhr.responseText;
+};
+
+xhr.onerror = function() {
+    document.getElementById("content").innerHTML = "error";
+};
+
+xhr.setRequestHeader('Origin', 'alkis-pap.github.io');
+xhr.send();
+</script>
+</head>
+<body>
+<div id="content"></div>
+</body>
+</html>
