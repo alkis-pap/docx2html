@@ -1,0 +1,44 @@
+<html>
+<head>
+<script>
+var createCORSRequest = function(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // Most browsers.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // IE8 & IE9
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+};
+
+
+var iframes = document.getElementsByTagName("iframe");
+
+for (let i = 0; i < iframse.length; i++) {
+    var url = iframes[i].getAttribute("src");
+    if (url.startsWith("https://docs.google.com/document/d/")) {
+        var xhr = new createCORSRequest('GET', url);
+        let d = document.createElement('div');
+        d.classList.add("embedded-doc");
+        xhr.onload = function() {
+            d.innerHTML = xhr.responseText;
+        };
+        xhr.setRequestHeader('Origin', 'alkis-pap.github.io');
+        xhr.send();
+        iframes[i].parentElement.replaceChild(d, iframes[i]);
+    }
+}
+
+
+</script>
+</head>
+<body>
+    <iframe src="https://docs.google.com/document/d/e/2PACX-1vTeppVk1yK7c3lnkD7QtmA1R3D-P6DUfnytZOHrftvx_ijVg1LbB9vRWnswKLz-YBRp1wiravaZd2yH/pub?embedded=true"></iframe>
+</body>
+</html>
